@@ -10,22 +10,35 @@ function App() {
 
   const [updateInfo, setUpdateInfo] = useState();
 
+  const [formclose, setFormclose] = useState(true)
+
   useEffect(() => {
     getAllUsers();
   }, []);
 
+
+  const handleOpenForm = () =>{
+    setFormclose(false)
+  }
+
   return (
-    <div className="App">
-      <h1>Users</h1>
+    <div className="app">
+
+      <header className="app__header">
+        <h1 className="app_title">Users</h1>
+        <button onClick={handleOpenForm} className="app__btn">Create New User</button>
+      </header>
 
       <FormUser
         createNewUser={createNewUser}
         updateInfo={updateInfo}
         updateUserById={updateUserById}
         setUpdateInfo={setUpdateInfo}
+        setFormclose={setFormclose}
+        formclose={formclose}
       />
 
-      <div>
+      <div className="app__user-container">
         {users?.map((user) => (
           <UserCard
             key={user.id}

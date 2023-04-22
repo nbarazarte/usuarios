@@ -14,12 +14,13 @@ const UserCard = ({ user, deleteUserById, setUpdateInfo }) => {
       <h2 className="user__name">
         {user.first_name} {user.last_name}
       </h2>
+      
       <ul className="user__list">
         <li className="user__item">
           <span className="user__label">Email</span>
           <span className="user__value">{user.email}</span>
         </li>
-        <li>
+        <li className="user__item">
           <span className="user__label">Birthday</span>
           <span className="user__value">{user.birthday}</span>
         </li>
