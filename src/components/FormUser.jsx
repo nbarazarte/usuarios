@@ -63,8 +63,10 @@ const FormUser = ({
             {...register("email", { required: true})} 
             type="email"
             id="email"
-          />
-          {errors.mail && <p role="alert">{errors.mail?.message}</p>}
+          />          
+          {errors?.email?.type === "required" && (
+            <p>The email field is required</p>
+          )}          
         </div>
         <div className="form__item">
           <label className="form__label" htmlFor="password">
