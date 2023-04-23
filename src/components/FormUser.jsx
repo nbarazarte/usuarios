@@ -51,9 +51,7 @@ const FormUser = ({
         <h3 className="form__title">
           {updateInfo ? "Update User Information" : "Create New User"}
         </h3>
-        <span onClick={handleExit} className="form__exit">
-          x
-        </span>
+        <span onClick={handleExit} className="form__exit">x</span>
         <div className="form__item">
           <label className="form__label" htmlFor="email">
             Email
