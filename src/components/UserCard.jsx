@@ -1,11 +1,14 @@
 import './styles/userCard.css'
+const UserCard = ({ user, deleteUserById, setUpdateInfo, setFormclose }) => {
 
-const UserCard = ({ user, deleteUserById, setUpdateInfo }) => {
   const handleDelete = () => {
-    deleteUserById(user.id);
+    if (confirm('¿Desea eliminar este usuario?') == true) {
+      deleteUserById(user.id);
+    }
   };
 
   const handleUpdate = () => {
+    setFormclose(false)
     setUpdateInfo(user)
   }
 

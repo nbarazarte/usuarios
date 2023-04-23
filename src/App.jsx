@@ -5,20 +5,36 @@ import UserCard from "./components/UserCard";
 import FormUser from "./components/FormUser";
 
 function App() {
-  const { users, getAllUsers, createNewUser, deleteUserById, updateUserById } =
+  const { users, getAllUsers, createNewUser, deleteUserById, updateUserById, msjform, setMsjform } =
     useUserCrud();
 
   const [updateInfo, setUpdateInfo] = useState();
-
   const [formclose, setFormclose] = useState(true)
+
+  const MsjFormUser = () => (
+    <div id="msjForm" className="form__msj">
+      {msjform}
+    </div>
+  );
+
+  useEffect(() => {
+
+    if(msjform){
+      setTimeout(() => {
+        document.getElementById('msjForm').style.display = 'none'
+        setMsjform()
+      }, 3000); 
+    }
+
+  }, [msjform])
 
   useEffect(() => {
     getAllUsers();
   }, []);
 
-
   const handleOpenForm = () =>{
     setFormclose(false)
+    setUpdateInfo()
   }
 
   return (
@@ -26,6 +42,7 @@ function App() {
 
       <header className="app__header">
         <h1 className="app_title">Users</h1>
+        {msjform && <MsjFormUser /> }
         <button onClick={handleOpenForm} className="app__btn">Create New User</button>
       </header>
 
@@ -36,6 +53,7 @@ function App() {
         setUpdateInfo={setUpdateInfo}
         setFormclose={setFormclose}
         formclose={formclose}
+        
       />
 
       <div className="app__user-container">
@@ -45,6 +63,7 @@ function App() {
             user={user}
             deleteUserById={deleteUserById}
             setUpdateInfo={setUpdateInfo}
+            setFormclose={setFormclose}
           />
         ))}
       </div>

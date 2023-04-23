@@ -1,66 +1,161 @@
-import { useForm } from 'react-hook-form';
-import defaultValues from '../utils/defaultValues';
-import { useEffect } from 'react';
+import { useForm } from "react-hook-form";
+import defaultValues from "../utils/defaultValues";
+import { useEffect } from "react";
 
-import './styles/formUsers.css'
+import "./styles/formUsers.css";
 
-const FormUser = ({createNewUser, updateInfo, updateUserById, setUpdateInfo, setFormclose, formclose}) => {
+const FormUser = ({
+  createNewUser,
+  updateInfo,
+  updateUserById,
+  setUpdateInfo,
+  setFormclose,
+  formclose,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
 
-const {register, handleSubmit, reset } = useForm()
-
-const handleExit = () => {
-  setFormclose(true)
-}
+  const handleExit = () => {
+    setFormclose(true);
+  };
 
   const submit = (data) => {
     //console.log(data);
-    if(updateInfo){
-      updateUserById(updateInfo.id,data)
-      setUpdateInfo()
-    }else{
-      createNewUser(data)
+    if (updateInfo) {
+      updateUserById(updateInfo.id, data);
+      setUpdateInfo();
+    } else {
+      createNewUser(data);
     }
-    
-    reset(defaultValues)
-  }
+
+    reset(defaultValues);
+    handleExit()
+  };
 
   useEffect(() => {
-    reset(updateInfo)
-  }, [updateInfo])
-  
+    if (updateInfo) {
+      reset(updateInfo);
+    } else {
+      reset(defaultValues);
+    }
+  }, [updateInfo]);
+
   return (
-
-    <div className={`form-container ${formclose && 'close'}`}>
-      
-    <form className='form' onSubmit={handleSubmit(submit)}>
-    <h3 className='form__title'>{updateInfo ? 'Update User Information': 'Create New User'}</h3>
-      <span onClick={handleExit} className='form__exit'>x</span>
-      <div className='form__item'>
-        <label className='form__label' htmlFor="email">Email</label>
-        <input className='form__input' {...register('email')} type="email" id="email" />
-      </div>
-      <div className='form__item'>
-        <label className='form__label' htmlFor="password">Password</label>
-        <input className='form__input' {...register('password')} type="password" id="password" />
-      </div>
-      <div className='form__item'>
-        <label className='form__label' htmlFor="first_name">First Name</label>
-        <input className='form__input' {...register('first_name')} type="text" id="first_name" />
-      </div>
-      <div className='form__item'>
-        <label className='form__label' htmlFor="last_name">Last Name</label>
-        <input className='form__input' {...register('last_name')} type="text" id="last_name" />
-      </div>
-      <div className='form__item'>
-        <label className='form__label' htmlFor="birthday">Birthday</label>
-        <input className='form__input' {...register('birthday')}  type="date" id="birthday" />
-      </div>
-      <button onClick={handleExit} className='form__btn'>{updateInfo ? 'Update': 'Create'}</button>
-    </form>
+    <div className={`form-container ${formclose && "close"}`}>
+      <form className="form" onSubmit={handleSubmit(submit)}>
+        <h3 className="form__title">
+          {updateInfo ? "Update User Information" : "Create New User"}
+        </h3>
+        <span onClick={handleExit} className="form__exit">
+          x
+        </span>
+        <div className="form__item">
+          <label className="form__label" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="form__input"
+            {...register("email", { required: true})} 
+            type="email"
+            id="email"
+          />
+          {errors.mail && <p role="alert">{errors.mail?.message}</p>}
+        </div>
+        <div className="form__item">
+          <label className="form__label" htmlFor="password">
+            Password
+          </label>
+          <input
+            className="form__input"
+            {...register("password", {
+              required: true,
+              maxLength: 8,              
+            })}
+            type="password"
+            id="password"
+          />
+          {errors?.password?.type === "required" && (
+            <p>The password field is required</p>
+          )}
+          {errors?.password?.type === "maxLength" && (
+            <p>The password cannot exceed 8 characters</p>
+          )}          
+        </div>
+        <div className="form__item">
+          <label className="form__label" htmlFor="first_name">
+            First Name
+          </label>
+          <input
+            className="form__input"
+            {...register("first_name", {
+              required: true,
+              maxLength: 20,
+              pattern: /^[A-Za-z]+$/i,
+            })}
+            type="text"
+            id="first_name"
+          />
+          {errors?.first_name?.type === "required" && (
+            <p>This field is required</p>
+          )}
+          {errors?.first_name?.type === "maxLength" && (
+            <p>First name cannot exceed 20 characters</p>
+          )}
+          {errors?.first_name?.type === "pattern" && (
+            <p>Alphabetical characters only</p>
+          )}
+        </div>
+        <div className="form__item">
+          <label className="form__label" htmlFor="last_name">
+            Last Name
+          </label>
+          <input
+            className="form__input"
+            {...register("last_name", {
+              required: true,
+              maxLength: 20,
+              pattern: /^[A-Za-z]+$/i,
+            })}
+            type="text"
+            id="last_name"
+          />
+          {errors?.last_name?.type === "required" && (
+            <p>This field is required</p>
+          )}
+          {errors?.last_name?.type === "maxLength" && (
+            <p>First name cannot exceed 20 characters</p>
+          )}
+          {errors?.last_name?.type === "pattern" && (
+            <p>Alphabetical characters only</p>
+          )}
+        </div>
+        <div className="form__item">
+          <label className="form__label" htmlFor="birthday">
+            Birthday
+          </label>
+          <input
+            className="form__input"
+            {...register("birthday", {
+              required: true,            
+            })}
+            type="date"
+            id="birthday"
+          />
+          {errors?.birthday?.type === "required" && (
+            <p>This field is required</p>
+          )}
+        </div>
+        {/* <button type="submit" onClick={handleExit} className='form__btn'>{updateInfo ? 'Update': 'Create'}</button> */}
+        <button type="submit" className='form__btn'>{updateInfo ? 'Update': 'Create'}</button>
+        {/* <input type="submit" /> */}
+      </form>
     </div>
+  );
+};
 
-
-  )
-}
-
-export default FormUser
+export default FormUser;
