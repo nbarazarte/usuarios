@@ -12,7 +12,7 @@ function App() {
   const [formclose, setFormclose] = useState(true)
 
   const MsjFormUser = () => (
-    <div id="msjForm" className="form__msj">
+    <div id="form__msj">
       {msjform}
     </div>
   );
@@ -20,10 +20,12 @@ function App() {
   useEffect(() => {
 
     if(msjform){
+      const message = document.getElementById('form__msj');
+      message.style.display = 'inline'        
       setTimeout(() => {
-        document.getElementById('msjForm').style.display = 'none'
+        message.style.display = 'none'                
         setMsjform()
-      }, 3000); 
+      }, 5000); 
     }
 
   }, [msjform])
